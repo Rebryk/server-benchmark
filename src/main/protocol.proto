@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package rebryk.net.protobuf;
+
+message BenchmarkPacket {
+    int32 count = 1;
+    repeated int32 array = 2;
+}
