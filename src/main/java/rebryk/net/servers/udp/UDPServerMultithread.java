@@ -13,7 +13,6 @@ public class UDPServerMultithread extends UDPServer {
     @Override
     public void start(final int port) throws IOException {
         socket = new DatagramSocket(port);
-        socket.setSoTimeout(Settings.UDP_SERVER_TIMEOUT);
 
         while (!socket.isClosed()) {
             try {

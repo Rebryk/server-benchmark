@@ -18,7 +18,6 @@ public class UDPServerThreadPool extends UDPServer {
     @Override
     public void start(final int port) throws IOException {
         socket = new DatagramSocket(port);
-        socket.setSoTimeout(Settings.UDP_SERVER_TIMEOUT);
         threadPool = Executors.newFixedThreadPool(THREADS_COUNT);
 
         while (!socket.isClosed()) {

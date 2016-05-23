@@ -25,14 +25,20 @@ public class Statistics {
     }
 
     static public class Interval {
+        private long start;
         private long time;
 
         public Interval() {
-            time = System.currentTimeMillis();
+            this.time = 0;
+            start();
+        }
+
+        public void start() {
+            start = System.currentTimeMillis();
         }
 
         public void stop() {
-            time = System.currentTimeMillis() - time;
+            time += System.currentTimeMillis() - start;
         }
 
         public long getTime() {
