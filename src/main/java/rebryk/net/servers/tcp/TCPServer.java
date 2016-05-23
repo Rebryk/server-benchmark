@@ -25,8 +25,8 @@ public abstract class TCPServer extends Server {
     }
 
     protected void handleRequest(final Socket socket) throws IOException {
-        final Statistics.Interval requestTime = new Statistics.Interval();
         final Protocol.BenchmarkPacket packet = ProtobufUtils.receivePacket(socket);
+        final Statistics.Interval requestTime = new Statistics.Interval();
         final Statistics.Interval processTime = new Statistics.Interval();
         final Protocol.BenchmarkPacket processedPacket = process(packet);
         processTime.stop();

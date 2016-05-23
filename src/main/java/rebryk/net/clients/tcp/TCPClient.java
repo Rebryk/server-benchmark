@@ -25,7 +25,7 @@ public class TCPClient extends Client {
                 socket = new Socket(host, port);
             }
             ProtobufUtils.sendPacket(socket, generatePacket());
-            final Protocol.BenchmarkPacket packet = ProtobufUtils.receivePacket(socket); //TODO: validate result
+            final Protocol.BenchmarkPacket packet = ProtobufUtils.receivePacket(socket);
             if (packet.getCount() != arrayLength) {
                 LOGGER.error("got bad response!");
             }

@@ -31,7 +31,7 @@ public class UDPClient extends Client {
                 socket.setSoTimeout(Settings.UDP_PACKET_TIMEOUT);
             }
             ProtobufUtils.sendPacket(socket, serverAddress, generatePacket(), buffer);
-            final Protocol.BenchmarkPacket packet = ProtobufUtils.receivePacket(socket, buffer); //TODO: validate result
+            final Protocol.BenchmarkPacket packet = ProtobufUtils.receivePacket(socket, buffer);
             if (packet.getCount() != arrayLength) {
                 LOGGER.error("got bad response!");
             }
