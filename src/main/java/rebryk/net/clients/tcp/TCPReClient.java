@@ -21,7 +21,8 @@ public class TCPReClient extends Client {
         try {
             try (final Socket socket = new Socket(host, port)) {
                 ProtobufUtils.sendPacket(socket, generatePacket());
-                final Protocol.BenchmarkPacket packet = ProtobufUtils.receivePacket(socket);
+                final byte[] data = ProtobufUtils.receiveBytePacket(socket);
+                final Protocol.BenchmarkPacket packet = Protocol.BenchmarkPacket.parseFrom(data);
                 if (packet.getCount() != arrayLength) {
                     LOGGER.error("got bad response!");
                 }

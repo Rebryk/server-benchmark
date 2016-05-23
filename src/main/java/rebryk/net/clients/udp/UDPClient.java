@@ -4,7 +4,6 @@ import rebryk.Settings;
 import rebryk.net.clients.Client;
 import rebryk.net.protobuf.ProtobufUtils;
 import rebryk.net.protobuf.Protocol;
-import rebryk.statistics.Statistics;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -31,18 +30,18 @@ public class UDPClient extends Client {
                 socket = new DatagramSocket();
                 socket.setSoTimeout(Settings.UDP_PACKET_TIMEOUT);
             }
-
-            extraInterval.start();
             ProtobufUtils.sendPacket(socket, serverAddress, generatePacket(), buffer);
             final Protocol.BenchmarkPacket packet = ProtobufUtils.receivePacket(socket, buffer);
             if (packet.getCount() != arrayLength) {
                 LOGGER.error("got bad response!");
             }
+
+            interval.stop();
         } catch (IOException e) {
-            extraInterval.stop();
             LOGGER.debug("failed to send packet!");
         }
 
+        interval.start();
         if (--packetLeftCount == 0) {
             interval.stop();
             socket.close();

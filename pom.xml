@@ -19,6 +19,21 @@
                 <version>3.5</version>
             </plugin>
             <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>rebryk.gui.BenchmarkGUI</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>com.github.os72</groupId>
                 <artifactId>protoc-jar-maven-plugin</artifactId>
                 <version>3.0.0-b2</version>

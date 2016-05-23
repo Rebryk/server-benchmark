@@ -41,8 +41,14 @@ public class BenchmarkClient {
                      final ValueInterval clientsCount, final ValueInterval arrayLength, final ValueInterval delay, final Chart chart) {
         LOGGER.debug("testing started");
         final List<List<Long>> statistics = new ArrayList<>();
-
         chart.clear();
+
+        ValueInterval parameter = clientsCount;
+        if (arrayLength.isChanging()) {
+            parameter = arrayLength;
+        } else if (delay.isChanging()) {
+            parameter = delay;
+        }
 
         int roundNum = 0;
         do {
@@ -74,7 +80,7 @@ public class BenchmarkClient {
                 roundStatistics.add(round.getTime()); // client working average time
                 addServerStatistics(roundStatistics);
 
-                chart.addPoint(roundNum, roundStatistics.get(3), roundStatistics.get(4), roundStatistics.get(5));
+                chart.addPoint(parameter.getValue(), roundStatistics.get(3), roundStatistics.get(4), roundStatistics.get(5));
                 LOGGER.debug("successfully finished round");
             } catch (IOException | InterruptedException e) {
                 LOGGER.error("round has failed!");

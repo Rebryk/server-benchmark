@@ -25,9 +25,8 @@ public abstract class UDPServer extends Server {
         socket.close();
     }
 
-    protected void handleRequest(final DatagramPacket datagramPacket) throws IOException {
+    protected void handleRequest(final DatagramPacket datagramPacket, final Statistics.Interval requestTime) throws IOException {
         final Protocol.BenchmarkPacket packet = ProtobufUtils.parsePacket(datagramPacket);
-        final Statistics.Interval requestTime = new Statistics.Interval();
         final Statistics.Interval processTime = new Statistics.Interval();
         final Protocol.BenchmarkPacket processedPacket = process(packet);
         processTime.stop();

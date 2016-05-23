@@ -43,4 +43,8 @@ public class ValueInterval {
     public void reset() {
         value = from;
     }
+
+    public boolean isChanging() {
+        return from != to;
+    }
 }

@@ -1,6 +1,7 @@
 package rebryk.net.servers.udp;
 
 import rebryk.Settings;
+import rebryk.statistics.Statistics;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -25,9 +26,10 @@ public class UDPServerThreadPool extends UDPServer {
                 final DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
 
+                final Statistics.Interval requestTime = new Statistics.Interval();
                 threadPool.execute(() -> {
                     try {
-                        handleRequest(packet);
+                        handleRequest(packet, requestTime);
                     } catch (IOException e) {
                         // 'handleRequest' failed
                     }

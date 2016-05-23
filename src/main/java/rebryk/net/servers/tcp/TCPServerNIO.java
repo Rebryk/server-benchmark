@@ -97,10 +97,8 @@ public class TCPServerNIO extends Server {
             socketChannel.read(client.request);
             if (!client.request.hasRemaining()) {
                 client.request.flip();
+                client.requestInterval.start();
                 final Protocol.BenchmarkPacket packet = Protocol.BenchmarkPacket.parseFrom(client.request.array());
-                if (client.requestInterval == null) {
-                    client.requestInterval = new Statistics.Interval();
-                }
                 threadPool.submit(requestHandler(client, packet));
                 client.request = null;
                 client.size.clear();
@@ -132,7 +130,7 @@ public class TCPServerNIO extends Server {
                 client.requestInterval.stop();
                 requestStatistics.add(client.requestInterval.getTime());
                 client.response = null;
-                client.requestInterval = null;
+                client.requestInterval.reset();
             }
         }
     }
@@ -142,16 +140,17 @@ public class TCPServerNIO extends Server {
             final Statistics.Interval processTime = new Statistics.Interval();
             final Protocol.BenchmarkPacket processedPacket = process(packet);
             processTime.stop();
+            processStatistics.add(processTime.getTime());
+
             synchronized (client) {
                 client.responsePacket = processedPacket;
             }
-            processStatistics.add(processTime.getTime());
         };
     }
 
     private static class ClientChannelInfo {
         private Protocol.BenchmarkPacket responsePacket;
-        private Statistics.Interval requestInterval;
+        private Statistics.Interval requestInterval = new Statistics.Interval();
         private ByteBuffer size = ByteBuffer.allocate(4);
         private ByteBuffer request;
         private ByteBuffer response;

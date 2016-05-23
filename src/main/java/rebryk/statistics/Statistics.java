@@ -29,7 +29,7 @@ public class Statistics {
         private long time;
 
         public Interval() {
-            this.time = 0;
+            reset();
             start();
         }
 
@@ -41,8 +41,16 @@ public class Statistics {
             time += System.currentTimeMillis() - start;
         }
 
+        public void reset() {
+            time = 0;
+        }
+
         public long getTime() {
             return time;
+        }
+
+        public long getCurrentTime() {
+            return System.currentTimeMillis() - start;
         }
     }
 }

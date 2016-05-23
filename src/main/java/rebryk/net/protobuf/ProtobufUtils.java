@@ -8,11 +8,11 @@ import java.nio.ByteBuffer;
  * Created by rebryk on 20/05/16.
  */
 public class ProtobufUtils {
-    public static Protocol.BenchmarkPacket receivePacket(final Socket socket) throws IOException {
+    public static byte[] receiveBytePacket(final Socket socket) throws IOException {
         final DataInputStream input = new DataInputStream(socket.getInputStream());
         final byte[] data = new byte[input.readInt()];
         input.readFully(data);
-        return Protocol.BenchmarkPacket.parseFrom(data);
+        return data;
     }
 
     public static void sendPacket(final Socket socket, final Protocol.BenchmarkPacket packet) throws IOException {

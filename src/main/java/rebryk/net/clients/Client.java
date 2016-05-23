@@ -21,7 +21,6 @@ public abstract class Client {
     protected int packetLeftCount;
     protected final long delay;
     protected final Statistics.Interval interval;
-    protected final Statistics.Interval extraInterval;
 
     public Client(final String host, final int port,
                   final int packetLeftCount, final int arrayLength, final long delay) {
@@ -32,7 +31,6 @@ public abstract class Client {
         this.arrayLength = arrayLength;
         this.delay = delay;
         this.interval = new Statistics.Interval();
-        this.extraInterval = new Statistics.Interval();
     }
 
     protected Protocol.BenchmarkPacket generatePacket() {
@@ -53,6 +51,6 @@ public abstract class Client {
     }
 
     public long getTime() {
-        return interval.getTime() - extraInterval.getTime();
+        return interval.getTime();
     }
 }

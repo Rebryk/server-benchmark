@@ -301,7 +301,6 @@ public final class BenchmarkGUI {
         if (!checkTestParameters()) {
             return;
         }
-        buttonRun.setEnabled(false);
 
         final String host = serverIP.getText();
         final Integer requestsCount = (Integer) table.getValueAt(0, 1);
@@ -319,6 +318,8 @@ public final class BenchmarkGUI {
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(frame, "Failed to start client!"));
                 return;
             }
+
+            SwingUtilities.invokeLater(() -> buttonRun.setEnabled(false));
 
             if (serversList.getSelectedIndex() < 6) {
                 benchmarkClient.test(BenchmarkServer.ServerType.get(serversList.getSelectedIndex()),

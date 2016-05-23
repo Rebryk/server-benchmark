@@ -33,19 +33,13 @@ public abstract class Server {
         final Protocol.BenchmarkPacket.Builder builder = Protocol.BenchmarkPacket.newBuilder();
         builder.setCount(packet.getCount());
 
-        //packet.getArrayList().stream().map(x -> x.toString()).sorted().map(x -> Integer.parseInt(x)).forEach(builder::addArray);
-
-        // very slow sort
-        Integer[] list = new Integer[packet.getCount()];
-        for (int k = 0; k < packet.getCount(); ++k) {
-            list = packet.getArrayList().stream().sorted().toArray(Integer[]::new);
-            for (int i = 0; i < packet.getCount(); ++i) {
-                for (int j = i + 1; j < packet.getCount(); ++j) {
-                    if (list[i] < list[j]) {
-                        final Integer tmp = list[i];
-                        list[i] = list[j];
-                        list[j] = tmp;
-                    }
+        Integer[] list = packet.getArrayList().stream().toArray(Integer[]::new);
+        for (int i = 0; i < packet.getCount(); ++i) {
+            for (int j = 0; j < packet.getCount(); ++j) {
+                if (i < j && list[i] > list[j]) {
+                    final Integer tmp = list[i];
+                    list[i] = list[j];
+                    list[j] = tmp;
                 }
             }
         }
